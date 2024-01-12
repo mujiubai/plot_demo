@@ -1,6 +1,9 @@
 ## **介绍**
 提供一些常见的Python画图示例，更好赶论文
 
+## **解决中文乱码**
+[解决方法](https://zhuanlan.zhihu.com/p/566430362)
+
 **使用的时候记得修改为**
 ```
 fig.savefig('./pics/{name}.pdf', format='pdf')

@@ -2,12 +2,16 @@
 # @Time    : 2020/9/5 23:04
 # @Author  : Hui Wang
 
+import matplotlib.patches as mpatches
+import matplotlib.pyplot as plt
 import numpy as np
 import matplotlib
+import shutil
+
+shutil.rmtree(matplotlib.get_cachedir())
 matplotlib.rcParams['pdf.fonttype'] = 42
 matplotlib.rcParams['ps.fonttype'] = 42
 
-import matplotlib.pyplot as plt
 plt.rcParams["font.family"] = "Times New Roman"
 
 
@@ -32,8 +36,10 @@ def plot_bar():
             tick_label=labels,
             color=colors)
     plt.tight_layout()
-    plt.savefig(f'pics/bar.png', format='png')  # 建议保存为svg格式,再用inkscape转为矢量图emf后插入word中
+    # 建议保存为svg格式,再用inkscape转为矢量图emf后插入word中
+    plt.savefig(f'pics/bar.png', format='png')
     plt.show()
+
 
 def plot_line():
 
@@ -55,9 +61,10 @@ def plot_line():
     linewidth = 2.0
     markersize = 7
 
-    plt.plot(x, model1, marker='s', markersize=markersize, color="blue", label="Model1", linewidth=linewidth)
-    plt.plot(x, Ours, marker='X', markersize=markersize, color="tomato", label="Ours", linewidth=linewidth)
-
+    plt.plot(x, model1, marker='s', markersize=markersize,
+             color="blue", label="Model1", linewidth=linewidth)
+    plt.plot(x, Ours, marker='X', markersize=markersize,
+             color="tomato", label="Ours", linewidth=linewidth)
 
     group_labels = ['-', '20%', '40%', '60%', '80%']
     plt.xticks(x, group_labels, fontsize=15)  # 默认字体大小为10
@@ -79,7 +86,184 @@ def plot_line():
     plt.setp(ltext, fontsize=15)
     # plt.setp(ltext, fontsize=25, fontweight='bold')  # 设置图例字体的大小和粗细
     plt.tight_layout()
-    plt.savefig(f'pics/line.png', format='png')  # 建议保存为svg格式,再用inkscape转为矢量图emf后插入word中
+    # 建议保存为svg格式,再用inkscape转为矢量图emf后插入word中
+    plt.savefig(f'pics/line.png', format='png')
+    plt.show()
+
+
+# 双y轴画图
+def plot_y2_line1():
+    month = [0, 10, 20, 30]
+    fahrenheit_lst = np.array([0.819, 0.816, 0.841, 0.857])
+
+    centigrade_lst = np.array([0.009, 0.009, 0.009, 0.01])
+
+    matplotlib.rcParams['font.family'] = 'SimHei'
+    centigrade = [
+        {'angle': 0, 'maet': 0.009},
+        {'angle': 10, 'maet': 0.009},
+        {'angle': 20, 'maet': 0.009},
+        {'angle': 30, 'maet': 0.01},
+    ]
+
+    fahrenheit = [{'angle': 0, 'maer': 0.819},
+                {'angle': 10, 'maer': 0.816},
+                {'angle': 20, 'maer': 0.841},
+                {'angle': 30, 'maer': 0.857},
+                ]
+
+    # month = [str(item['angle']) for item in centigrade]
+    # centigrade_lst = [item['maet'] for item in centigrade]
+    # fahrenheit_lst = [item['maer'] for item in fahrenheit]
+
+    fig = plt.figure()
+
+    ax = fig.add_subplot()
+    ax.plot(month, centigrade_lst, label='MAE(t)', color='green', marker='o', linestyle='solid')
+    ax.set_ylabel("MAE(t)")
+    ax.set_ylim(0.0084, 0.0102)
+    ax.legend(loc='upper left') #示例位置
+    ax2 = ax.twinx()
+    ax2.plot(month, fahrenheit_lst, label='MAE(R)', color='blue', marker='s', linestyle='dashed')
+    ax2.set_ylabel("MAE(R)")
+    ax2.set_ylim(0.79, 0.86)
+    ax2.legend(loc='upper right')
+    # plt.title('月平均气温')
+    ax.set_xlabel("角度阈值")
+    plt.grid(linestyle="-.")  # 设置背景网格线为虚线
+    plt.tight_layout() #使整体更紧凑
+    plt.savefig(f'pics/line1.png', format='png')
+    plt.show()
+
+def plot_y2_line2():
+    month = [0, 10, 20, 30]
+    fahrenheit_lst = np.array([1.619,1.601,1.656,1.685])
+
+    centigrade_lst = np.array([0.02,0.019,0.02,0.021])
+
+
+    matplotlib.rcParams['font.family'] = 'SimHei'
+    centigrade = [
+        {'angle': 0, 'maet': 0.009},
+        {'angle': 10, 'maet': 0.009},
+        {'angle': 20, 'maet': 0.009},
+        {'angle': 30, 'maet': 0.01},
+    ]
+
+    fahrenheit = [{'angle': 0, 'maer': 0.819},
+                {'angle': 10, 'maer': 0.816},
+                {'angle': 20, 'maer': 0.841},
+                {'angle': 30, 'maer': 0.857},
+                ]
+
+    # month = [str(item['angle']) for item in centigrade]
+    # centigrade_lst = [item['maet'] for item in centigrade]
+    # fahrenheit_lst = [item['maer'] for item in fahrenheit]
+
+    fig = plt.figure()
+
+    ax = fig.add_subplot()
+    ax.plot(month, centigrade_lst, label='Error(t)', color='green', marker='o', linestyle='solid')
+    ax.set_ylabel("Error(t)")
+    ax.set_ylim(0.018, 0.0215)
+    ax.legend(loc='upper left')
+    ax2 = ax.twinx()
+    ax2.plot(month, fahrenheit_lst, label='Error(R)', color='blue', marker='s', linestyle='dashed')
+    ax2.set_ylabel("Error(R)")
+    ax2.set_ylim(1.54, 1.7)
+    ax2.legend(loc='upper right')
+    # plt.title('月平均气温')
+    ax.set_xlabel("角度阈值")
+    plt.grid(linestyle="-.")  # 设置背景网格线为虚线
+    plt.tight_layout()
+    plt.savefig(f'pics/line2.png', format='png')
+    plt.show()
+
+def plot_y2_line3():
+    month = [4,5,6,7,8,9]
+    fahrenheit_lst = np.array([0.849,0.82,0.816,0.837,0.826,0.857])
+
+    centigrade_lst = np.array([0.009,0.009,0.009,0.01,0.01,0.01])
+
+    matplotlib.rcParams['font.family'] = 'SimHei'
+    centigrade = [
+        {'angle': 0, 'maet': 0.009},
+        {'angle': 10, 'maet': 0.009},
+        {'angle': 20, 'maet': 0.009},
+        {'angle': 30, 'maet': 0.01},
+    ]
+
+    fahrenheit = [{'angle': 0, 'maer': 0.819},
+                {'angle': 10, 'maer': 0.816},
+                {'angle': 20, 'maer': 0.841},
+                {'angle': 30, 'maer': 0.857},
+                ]
+
+    # month = [str(item['angle']) for item in centigrade]
+    # centigrade_lst = [item['maet'] for item in centigrade]
+    # fahrenheit_lst = [item['maer'] for item in fahrenheit]
+
+    fig = plt.figure()
+
+    ax = fig.add_subplot()
+    ax.plot(month, centigrade_lst, label='MAE(t)', color='green', marker='o', linestyle='solid')
+    ax.set_ylabel("MAE(t)")
+    ax.set_ylim(0.0084, 0.0102)
+    ax.legend(loc='upper left')
+    ax2 = ax.twinx()
+    ax2.plot(month, fahrenheit_lst, label='MAE(R)', color='blue', marker='s', linestyle='dashed')
+    ax2.set_ylabel("MAE(R)")
+    ax2.set_ylim(0.79, 0.86)
+    ax2.legend(loc='upper right')
+    # plt.title('月平均气温')
+    ax.set_xlabel("邻近点个数")#number of points
+    plt.grid(linestyle="-.")  # 设置背景网格线为虚线
+    plt.tight_layout()
+    plt.savefig(f'pics/line3.png', format='png')
+    plt.show()
+
+def plot_y2_line4():
+    month = [4,5,6,7,8,9]
+    fahrenheit_lst = np.array([1.681,1.625,1.601,1.658,1.63,1.711])
+
+    centigrade_lst = np.array([0.021,0.02,0.019,0.021,0.021,0.021])
+
+
+    matplotlib.rcParams['font.family'] = 'SimHei'
+    centigrade = [
+        {'angle': 0, 'maet': 0.009},
+        {'angle': 10, 'maet': 0.009},
+        {'angle': 20, 'maet': 0.009},
+        {'angle': 30, 'maet': 0.01},
+    ]
+
+    fahrenheit = [{'angle': 0, 'maer': 0.819},
+                {'angle': 10, 'maer': 0.816},
+                {'angle': 20, 'maer': 0.841},
+                {'angle': 30, 'maer': 0.857},
+                ]
+
+    # month = [str(item['angle']) for item in centigrade]
+    # centigrade_lst = [item['maet'] for item in centigrade]
+    # fahrenheit_lst = [item['maer'] for item in fahrenheit]
+
+    fig = plt.figure()
+
+    ax = fig.add_subplot()
+    ax.plot(month, centigrade_lst, label='Error(t)', color='green', marker='o', linestyle='solid')
+    ax.set_ylabel("Error(t)")
+    ax.set_ylim(0.018, 0.0215)
+    ax.legend(loc='upper left')
+    ax2 = ax.twinx()
+    ax2.plot(month, fahrenheit_lst, label='Error(R)', color='blue', marker='s', linestyle='dashed')
+    ax2.set_ylabel("Error(R)")
+    ax2.set_ylim(1.54, 1.72)
+    ax2.legend(loc='upper right')
+    # plt.title('月平均气温')
+    ax.set_xlabel("邻近点个数")#number of points
+    plt.grid(linestyle="-.")  # 设置背景网格线为虚线
+    plt.tight_layout()
+    plt.savefig(f'pics/line4.png', format='png')
     plt.show()
 
 def plot_multi_bar():
@@ -102,7 +286,6 @@ def plot_multi_bar():
     width = total_width / n
     x = x - (total_width - width) / n
 
-
     # low = 0.05
     # up = 0.44
     low = 0.02
@@ -113,19 +296,25 @@ def plot_multi_bar():
     labels = ['Model1', 'Model2', 'Model3', 'Ours']
 
     # 'tomato', 'blue', 'orange', 'green', 'purple', 'deepskyblue'
-    plt.bar(x, model1, width=width, color='blue', edgecolor='w')  # , edgecolor='k',)
-    plt.bar(x + width, model2, width=width, color='green', edgecolor='w')  # , edgecolor='k',)
-    plt.bar(x + 2*width, model3, width=width, color='orange', edgecolor='w')  # , edgecolor='k',)
-    plt.bar(x + 3*width, Ours, width=width, color='tomato', edgecolor='w')  # , edgecolor='k',)
+    plt.bar(x, model1, width=width, color='blue',
+            edgecolor='w')  # , edgecolor='k',)
+    plt.bar(x + width, model2, width=width, color='green',
+            edgecolor='w')  # , edgecolor='k',)
+    plt.bar(x + 2*width, model3, width=width, color='orange',
+            edgecolor='w')  # , edgecolor='k',)
+    plt.bar(x + 3*width, Ours, width=width, color='tomato',
+            edgecolor='w')  # , edgecolor='k',)
 
-    plt.xticks(x +1.5*width, labels=['20%', '40%', '60%', '80%', '100%'], fontsize=20)
+    plt.xticks(x + 1.5*width, labels=['20%',
+               '40%', '60%', '80%', '100%'], fontsize=20)
 
     y_lables = ['0.02', '0.08', '0.14', '0.20', '0.26']
     y_ticks = [float(i) for i in y_lables]
     # plt.yscale('linear')
     # y_ticks = [0.25, 0.30, 0.35, 0.40, 0.45]
     # y_lables = ['0.25', '0.30', '0.35', '0.40', '0.45']
-    plt.yticks(np.array(y_ticks), y_lables, fontsize=20)#bbox_to_anchor=(0.30, 1)
+    # bbox_to_anchor=(0.30, 1)
+    plt.yticks(np.array(y_ticks), y_lables, fontsize=20)
     plt.legend(labels=labels, ncol=2,
                prop={'size': 14})
 
@@ -134,8 +323,9 @@ def plot_multi_bar():
     plt.show()
     # 建议保存为svg格式,再用inkscape转为矢量图emf后插入word中
 
+
 def plot_bar_and_line():
-    fontsize=20
+    fontsize = 20
     result1 = [0.1967, 0.2103, 0.2398, 0.2446, 0.2387]
     l = [i for i in range(5)]
 
@@ -170,6 +360,7 @@ def plot_bar_and_line():
     plt.savefig('pics/bar_and_line.png', format='png')
     plt.show()
 
+
 def plot_scatters():
 
     # label在图示(legend)中显示。若为数学公式,则最好在字符串前后添加"$"符号
@@ -186,21 +377,30 @@ def plot_scatters():
     linewidth = 2.0
     markersize = 25
 
-    plt.scatter(np.array([0.1394]), np.array([2.4]), marker='o', s=markersize, color="tomato", label="Model1")
-    plt.scatter(np.array([0.1353]), np.array([3.7]), marker='d', s=markersize, color="orange", label="Model2")
-    plt.scatter(np.array([0.1860]), np.array([8.7]), marker='+', s=markersize, color="gray", label="Model3")
+    plt.scatter(np.array([0.1394]), np.array(
+        [2.4]), marker='o', s=markersize, color="tomato", label="Model1")
+    plt.scatter(np.array([0.1353]), np.array(
+        [3.7]), marker='d', s=markersize, color="orange", label="Model2")
+    plt.scatter(np.array([0.1860]), np.array(
+        [8.7]), marker='+', s=markersize, color="gray", label="Model3")
 
-    plt.scatter(np.array([0.1478]), np.array([60]), marker='<', s=markersize, color="purple", label="Model4")
-    plt.scatter(np.array([0.1363]), np.array([6.7]), marker='^', s=markersize, color="peru", label="Model5")
+    plt.scatter(np.array([0.1478]), np.array([60]), marker='<',
+                s=markersize, color="purple", label="Model4")
+    plt.scatter(np.array([0.1363]), np.array(
+        [6.7]), marker='^', s=markersize, color="peru", label="Model5")
 
-    plt.scatter(np.array([0.1683]), np.array([16]), marker='p', s=markersize, color="maroon", label="Model6")
-    plt.scatter(np.array([0.1922]), np.array([9.8]), marker='s', s=markersize, color="blue", label="Model7")
-    plt.scatter(np.array([0.1823]), np.array([90]), marker='>', s=markersize, color="lime", label="Model8")
-    plt.scatter(np.array([0.1875]), np.array([100.54]), marker='x', s=markersize, color="green", label="Model9")
-    plt.scatter(np.array([0.2160]), np.array([228]), marker='d', s=markersize, color="blue", label="Model10")
-    plt.scatter(np.array([0.2446]), np.array([66.02]), marker='*', s=markersize, color="red", label="Ours")
-
-
+    plt.scatter(np.array([0.1683]), np.array([16]), marker='p',
+                s=markersize, color="maroon", label="Model6")
+    plt.scatter(np.array([0.1922]), np.array(
+        [9.8]), marker='s', s=markersize, color="blue", label="Model7")
+    plt.scatter(np.array([0.1823]), np.array(
+        [90]), marker='>', s=markersize, color="lime", label="Model8")
+    plt.scatter(np.array([0.1875]), np.array([100.54]),
+                marker='x', s=markersize, color="green", label="Model9")
+    plt.scatter(np.array([0.2160]), np.array(
+        [228]), marker='d', s=markersize, color="blue", label="Model10")
+    plt.scatter(np.array([0.2446]), np.array([66.02]),
+                marker='*', s=markersize, color="red", label="Ours")
 
     x_labels = ['0.11', '0.15', '0.19', '0.23', '0.27']
     x_ticks = [float(i) for i in x_labels]
@@ -216,12 +416,14 @@ def plot_scatters():
     y_ticks = [int(i) for i in y_labels]
     plt.yticks(np.array(y_ticks), y_labels, fontsize=15)
     # plt.legend()          #显示各曲线的图例
-    plt.legend(loc=0, numpoints=1, ncol=1, bbox_to_anchor=(1.05, 1.0), borderaxespad=0.)
+    plt.legend(loc=0, numpoints=1, ncol=1,
+               bbox_to_anchor=(1.05, 1.0), borderaxespad=0.)
     leg = plt.gca().get_legend()
     ltext = leg.get_texts()
     plt.setp(ltext, fontsize=10)  # 设置图例字体的大小和粗细
     plt.tight_layout()
-    plt.savefig(f'./pics/scatter.png', format='png')  # 建议保存为svg格式,再用inkscape转为矢量图emf后插入word中
+    # 建议保存为svg格式,再用inkscape转为矢量图emf后插入word中
+    plt.savefig(f'./pics/scatter.png', format='png')
     plt.show()
 
 
@@ -237,8 +439,8 @@ def plot_hetmap():
 
     plt.figure(figsize=(5, 4))
 
-    ax = sns.heatmap(x, annot=True, fmt=".4f", annot_kws={'size': 15, 'color': 'black'}, # 'weight': 'bold'
-                linewidths=0.5, cmap='YlOrRd', square=True)
+    ax = sns.heatmap(x, annot=True, fmt=".4f", annot_kws={'size': 15, 'color': 'black'},  # 'weight': 'bold'
+                     linewidths=0.5, cmap='YlOrRd', square=True)
 
     x_lables = ['Model1', 'Model2', 'Model3']
 
@@ -260,6 +462,8 @@ def plot_hetmap():
     plt.show()
 
 # text的位置确认有点拉
+
+
 def plot_ablation_bar_in_one():
 
     models = ['Base', '$\\neg$ A', '$\\neg$ B', '$\\neg$ C', "Ours"]
@@ -281,7 +485,7 @@ def plot_ablation_bar_in_one():
     low = 0.34
     up = 0.391
     Beauty = [0.3488, 0.3687, 0.3688, 0.3546, 0.3761]
-    data=Beauty
+    data = Beauty
     plt.subplot(141)
     plt.ylim(low, up)
     position = (up - low) * 0.9 + low
@@ -294,7 +498,8 @@ def plot_ablation_bar_in_one():
     # hatches = ["\\"] + ["."] * 4 + ["/"]
     # /,  \, |, -, +, x, o, O,., * 。
     plt.bar([0], data[0], width=0.5, color=colors[0], hatch=".", edgecolor='w')
-    plt.bar([1, 2, 3], data[1:4], width=0.5, color=colors[1], hatch=".", edgecolor='w')
+    plt.bar([1, 2, 3], data[1:4], width=0.5,
+            color=colors[1], hatch=".", edgecolor='w')
     plt.bar([4], data[4], width=0.5, color=colors[2], hatch=".", edgecolor='w')
     plt.xticks([0, 1, 2, 3, 4], labels)
     # plt.bar(np.arange(len(data)), data, width=0.5, tick_label=labels, color=colors, hatches=hatches)
@@ -318,8 +523,10 @@ def plot_ablation_bar_in_one():
     #         tick_label=labels, color=colors,
     #         # edgecolor='k'
     #         )
-    plt.bar([0], data[0], width=0.5, color=colors[0], hatch="\\", edgecolor='w')
-    plt.bar([1, 2, 3], data[1:4], width=0.5, color=colors[1], hatch=".", edgecolor='w')
+    plt.bar([0], data[0], width=0.5, color=colors[0],
+            hatch="\\", edgecolor='w')
+    plt.bar([1, 2, 3], data[1:4], width=0.5,
+            color=colors[1], hatch=".", edgecolor='w')
     plt.bar([4], data[4], width=0.5, color=colors[2], hatch="/", edgecolor='w')
     plt.xticks([0, 1, 2, 3, 4], labels)
 
@@ -344,8 +551,10 @@ def plot_ablation_bar_in_one():
     #         tick_label=labels, color=colors,
     #         # edgecolor='k'
     #         )
-    plt.bar([0], data[0], width=0.5, color=colors[0], hatch="\\", edgecolor='w')
-    plt.bar([1, 2, 3], data[1:4], width=0.5, color=colors[1], hatch=".", edgecolor='w')
+    plt.bar([0], data[0], width=0.5, color=colors[0],
+            hatch="\\", edgecolor='w')
+    plt.bar([1, 2, 3], data[1:4], width=0.5,
+            color=colors[1], hatch=".", edgecolor='w')
     plt.bar([4], data[4], width=0.5, color=colors[2], hatch="/", edgecolor='w')
     plt.xticks([0, 1, 2, 3, 4], labels)
 
@@ -368,8 +577,10 @@ def plot_ablation_bar_in_one():
     #         tick_label=labels, color=colors,
     #         # edgecolor='k'
     #         )
-    plt.bar([0], data[0], width=0.5, color=colors[0], hatch="\\", edgecolor='w')
-    plt.bar([1, 2, 3], data[1:4], width=0.5, color=colors[1], hatch=".", edgecolor='w')
+    plt.bar([0], data[0], width=0.5, color=colors[0],
+            hatch="\\", edgecolor='w')
+    plt.bar([1, 2, 3], data[1:4], width=0.5,
+            color=colors[1], hatch=".", edgecolor='w')
     plt.bar([4], data[4], width=0.5, color=colors[2], hatch="/", edgecolor='w')
     plt.xticks([0, 1, 2, 3, 4], labels)
 
@@ -379,9 +590,10 @@ def plot_ablation_bar_in_one():
     plt.savefig('./pics/ablation.png', format='png')
     plt.show()
 
-import matplotlib.patches as mpatches
 
 # 上下对齐的两个子图
+
+
 def plot_two_bar_in_one():
 
     beauty_base = [0.14, 0.16, 0.23, 0.25, 0.27, 0.30, 0.33, 0.34]
@@ -397,7 +609,6 @@ def plot_two_bar_in_one():
     total_width, n = 0.8, 2
     width = total_width / n
     x = x - (total_width - width) / n
-
 
     lables = ['Model1', 'Model2', 'Model3', 'Model4',
               'Model5', 'Model6', 'Model7', 'Model8']
@@ -415,8 +626,10 @@ def plot_two_bar_in_one():
     low = 0.13
     up = 0.41
     ax1.set_ylim(low, up)
-    ax1.bar(x, beauty_base, width=width, color='royalblue', hatch=".", edgecolor='w')  # , edgecolor='k',)
-    ax1.bar(x + width, beauty_grow, width=width, color='tomato', hatch="/", edgecolor='w')  # , edgecolor='k',)
+    ax1.bar(x, beauty_base, width=width, color='royalblue',
+            hatch=".", edgecolor='w')  # , edgecolor='k',)
+    ax1.bar(x + width, beauty_grow, width=width, color='tomato',
+            hatch="/", edgecolor='w')  # , edgecolor='k',)
     position = (up - low) * 0.9 + low
     ax1.text(2.6, position, 'Beauty', fontsize=40)
     y_ticks = [0.15, 0.20, 0.25, 0.30, 0.35, 0.40]
@@ -430,9 +643,11 @@ def plot_two_bar_in_one():
     low = 0.11
     up = 0.41
     ax2.set_ylim(low, up)
-    ax2.bar(x, toys_base, width=width, color='royalblue', hatch=".", edgecolor='w')
+    ax2.bar(x, toys_base, width=width,
+            color='royalblue', hatch=".", edgecolor='w')
 
-    ax2.bar(x + width, toys_grow, width=width, color='tomato', hatch="/", edgecolor='w')
+    ax2.bar(x + width, toys_grow, width=width,
+            color='tomato', hatch="/", edgecolor='w')
     position = (up - low) * 0.9 + low
     ax2.text(2.7, position, 'Toys', fontsize=40)
     ax2.set_xticks(x + (width / 2))
@@ -448,7 +663,8 @@ def plot_two_bar_in_one():
     leg2 = mpatches.Patch(color='tomato', hatch='/')
 
     labels = ['Original', 'Final']
-    fig.legend(handles=[leg1, leg2], labels=labels, loc='upper center', bbox_to_anchor=(0.2, 1), ncol=1, prop={'size': 40})
+    fig.legend(handles=[leg1, leg2], labels=labels, loc='upper center',
+               bbox_to_anchor=(0.2, 1), ncol=1, prop={'size': 40})
 
     fig.tight_layout()
     fig.show()
@@ -456,11 +672,18 @@ def plot_two_bar_in_one():
     fig.savefig('./pics/two_bars.png', format='png')
 
 
-plot_bar()
-plot_line()
-plot_multi_bar()
-plot_bar_and_line()
-plot_scatters()
-plot_hetmap()
-plot_ablation_bar_in_one()
-plot_two_bar_in_one()
+# plot_bar()
+# plot_line()
+# plot_multi_bar()
+# plot_bar_and_line()
+# plot_scatters()
+# plot_hetmap()
+# plot_ablation_bar_in_one()
+# plot_two_bar_in_one()
+    
+plot_y2_line1()
+plot_y2_line2()
+plot_y2_line3()
+plot_y2_line4()
+print(matplotlib.matplotlib_fname())
+print(matplotlib.get_cachedir())
