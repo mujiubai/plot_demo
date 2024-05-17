@@ -94,42 +94,42 @@ def plot_line():
 # 双y轴画图
 def plot_y2_line1():
     month = [0, 10, 20, 30]
-    fahrenheit_lst = np.array([0.819, 0.816, 0.841, 0.857])
+    fahrenheit_lst = np.array([0.812, 0.809, 0.832, 0.854])
 
-    centigrade_lst = np.array([0.009, 0.009, 0.009, 0.01])
+    centigrade_lst = np.array([0.009, 0.009, 0.009, 0.009])
 
     matplotlib.rcParams['font.family'] = 'SimHei'
-    centigrade = [
-        {'angle': 0, 'maet': 0.009},
-        {'angle': 10, 'maet': 0.009},
-        {'angle': 20, 'maet': 0.009},
-        {'angle': 30, 'maet': 0.01},
-    ]
+    # centigrade = [
+    #     {'angle': 0, 'maet': 0.009},
+    #     {'angle': 10, 'maet': 0.009},
+    #     {'angle': 20, 'maet': 0.009},
+    #     {'angle': 30, 'maet': 0.01},
+    # ]
 
-    fahrenheit = [{'angle': 0, 'maer': 0.819},
-                {'angle': 10, 'maer': 0.816},
-                {'angle': 20, 'maer': 0.841},
-                {'angle': 30, 'maer': 0.857},
-                ]
+    # fahrenheit = [{'angle': 0, 'maer': 0.819},
+    #             {'angle': 10, 'maer': 0.816},
+    #             {'angle': 20, 'maer': 0.841},
+    #             {'angle': 30, 'maer': 0.857},
+    #             ]
 
     # month = [str(item['angle']) for item in centigrade]
     # centigrade_lst = [item['maet'] for item in centigrade]
     # fahrenheit_lst = [item['maer'] for item in fahrenheit]
-
+    plt.rcParams['font.size']=14
     fig = plt.figure()
 
     ax = fig.add_subplot()
     ax.plot(month, centigrade_lst, label='MAE(t)', color='green', marker='o', linestyle='solid')
-    ax.set_ylabel("MAE(t)")
+    ax.set_ylabel("MAE(t)", fontsize=17)
     ax.set_ylim(0.0084, 0.0102)
     ax.legend(loc='upper left') #示例位置
     ax2 = ax.twinx()
     ax2.plot(month, fahrenheit_lst, label='MAE(R)', color='blue', marker='s', linestyle='dashed')
-    ax2.set_ylabel("MAE(R)")
+    ax2.set_ylabel("MAE(R)", fontsize=17)
     ax2.set_ylim(0.79, 0.86)
     ax2.legend(loc='upper right')
     # plt.title('月平均气温')
-    ax.set_xlabel("角度阈值")
+    ax.set_xlabel("角度阈值", fontsize=17)
     plt.grid(linestyle="-.")  # 设置背景网格线为虚线
     plt.tight_layout() #使整体更紧凑
     plt.savefig(f'pics/line1.png', format='png')
@@ -137,43 +137,43 @@ def plot_y2_line1():
 
 def plot_y2_line2():
     month = [0, 10, 20, 30]
-    fahrenheit_lst = np.array([1.619,1.601,1.656,1.685])
+    fahrenheit_lst = np.array([1.602,1.595,1.636,1.679])
 
-    centigrade_lst = np.array([0.02,0.019,0.02,0.021])
+    centigrade_lst = np.array([0.019,0.019,0.019,0.021])
 
 
     matplotlib.rcParams['font.family'] = 'SimHei'
-    centigrade = [
-        {'angle': 0, 'maet': 0.009},
-        {'angle': 10, 'maet': 0.009},
-        {'angle': 20, 'maet': 0.009},
-        {'angle': 30, 'maet': 0.01},
-    ]
+    # centigrade = [
+    #     {'angle': 0, 'maet': 0.009},
+    #     {'angle': 10, 'maet': 0.009},
+    #     {'angle': 20, 'maet': 0.009},
+    #     {'angle': 30, 'maet': 0.01},
+    # ]
 
-    fahrenheit = [{'angle': 0, 'maer': 0.819},
-                {'angle': 10, 'maer': 0.816},
-                {'angle': 20, 'maer': 0.841},
-                {'angle': 30, 'maer': 0.857},
-                ]
+    # fahrenheit = [{'angle': 0, 'maer': 0.819},
+    #             {'angle': 10, 'maer': 0.816},
+    #             {'angle': 20, 'maer': 0.841},
+    #             {'angle': 30, 'maer': 0.857},
+    #             ]
 
     # month = [str(item['angle']) for item in centigrade]
     # centigrade_lst = [item['maet'] for item in centigrade]
     # fahrenheit_lst = [item['maer'] for item in fahrenheit]
-
+    plt.rcParams['font.size']=14
     fig = plt.figure()
 
     ax = fig.add_subplot()
-    ax.plot(month, centigrade_lst, label='Error(t)', color='green', marker='o', linestyle='solid')
-    ax.set_ylabel("Error(t)")
+    ax.plot(month, centigrade_lst, label='RTE', color='green', marker='o', linestyle='solid')
+    ax.set_ylabel("RTE", fontsize=17)
     ax.set_ylim(0.018, 0.0215)
     ax.legend(loc='upper left')
     ax2 = ax.twinx()
-    ax2.plot(month, fahrenheit_lst, label='Error(R)', color='blue', marker='s', linestyle='dashed')
-    ax2.set_ylabel("Error(R)")
+    ax2.plot(month, fahrenheit_lst, label='RRE', color='blue', marker='s', linestyle='dashed')
+    ax2.set_ylabel("RRE", fontsize=17)
     ax2.set_ylim(1.54, 1.7)
     ax2.legend(loc='upper right')
     # plt.title('月平均气温')
-    ax.set_xlabel("角度阈值")
+    ax.set_xlabel("角度阈值",fontsize=17)
     plt.grid(linestyle="-.")  # 设置背景网格线为虚线
     plt.tight_layout()
     plt.savefig(f'pics/line2.png', format='png')
@@ -181,42 +181,42 @@ def plot_y2_line2():
 
 def plot_y2_line3():
     month = [4,5,6,7,8,9]
-    fahrenheit_lst = np.array([0.849,0.82,0.816,0.837,0.826,0.857])
+    fahrenheit_lst = np.array([0.848,0.840,0.809,0.847,0.832,0.827])#([0.849,0.82,0.816,0.837,0.826,0.857])
 
-    centigrade_lst = np.array([0.009,0.009,0.009,0.01,0.01,0.01])
+    centigrade_lst = np.array([0.009,0.009,0.009,0.009,0.009,0.009])#([0.009,0.009,0.009,0.01,0.01,0.01])
 
     matplotlib.rcParams['font.family'] = 'SimHei'
-    centigrade = [
-        {'angle': 0, 'maet': 0.009},
-        {'angle': 10, 'maet': 0.009},
-        {'angle': 20, 'maet': 0.009},
-        {'angle': 30, 'maet': 0.01},
-    ]
+    # centigrade = [
+    #     {'angle': 0, 'maet': 0.009},
+    #     {'angle': 10, 'maet': 0.009},
+    #     {'angle': 20, 'maet': 0.009},
+    #     {'angle': 30, 'maet': 0.01},
+    # ]
 
-    fahrenheit = [{'angle': 0, 'maer': 0.819},
-                {'angle': 10, 'maer': 0.816},
-                {'angle': 20, 'maer': 0.841},
-                {'angle': 30, 'maer': 0.857},
-                ]
+    # fahrenheit = [{'angle': 0, 'maer': 0.819},
+    #             {'angle': 10, 'maer': 0.816},
+    #             {'angle': 20, 'maer': 0.841},
+    #             {'angle': 30, 'maer': 0.857},
+    #             ]
 
     # month = [str(item['angle']) for item in centigrade]
     # centigrade_lst = [item['maet'] for item in centigrade]
     # fahrenheit_lst = [item['maer'] for item in fahrenheit]
-
+    plt.rcParams['font.size']=14
     fig = plt.figure()
 
     ax = fig.add_subplot()
     ax.plot(month, centigrade_lst, label='MAE(t)', color='green', marker='o', linestyle='solid')
-    ax.set_ylabel("MAE(t)")
+    ax.set_ylabel("MAE(t)", fontsize=17)
     ax.set_ylim(0.0084, 0.0102)
     ax.legend(loc='upper left')
     ax2 = ax.twinx()
     ax2.plot(month, fahrenheit_lst, label='MAE(R)', color='blue', marker='s', linestyle='dashed')
-    ax2.set_ylabel("MAE(R)")
+    ax2.set_ylabel("MAE(R)", fontsize=17)
     ax2.set_ylim(0.79, 0.86)
     ax2.legend(loc='upper right')
     # plt.title('月平均气温')
-    ax.set_xlabel("邻近点个数")#number of points
+    ax.set_xlabel("邻近点个数", fontsize=17)#number of points
     plt.grid(linestyle="-.")  # 设置背景网格线为虚线
     plt.tight_layout()
     plt.savefig(f'pics/line3.png', format='png')
@@ -224,43 +224,43 @@ def plot_y2_line3():
 
 def plot_y2_line4():
     month = [4,5,6,7,8,9]
-    fahrenheit_lst = np.array([1.681,1.625,1.601,1.658,1.63,1.711])
+    fahrenheit_lst = np.array([1.673,1.660,1.595,1.673,1.641,1.627])#([1.681,1.625,1.601,1.658,1.63,1.711])
 
-    centigrade_lst = np.array([0.021,0.02,0.019,0.021,0.021,0.021])
+    centigrade_lst = np.array([0.021,0.02,0.019,0.020,0.020,0.020])#([0.021,0.02,0.019,0.021,0.021,0.021])
 
 
     matplotlib.rcParams['font.family'] = 'SimHei'
-    centigrade = [
-        {'angle': 0, 'maet': 0.009},
-        {'angle': 10, 'maet': 0.009},
-        {'angle': 20, 'maet': 0.009},
-        {'angle': 30, 'maet': 0.01},
-    ]
+    # centigrade = [
+    #     {'angle': 0, 'maet': 0.009},
+    #     {'angle': 10, 'maet': 0.009},
+    #     {'angle': 20, 'maet': 0.009},
+    #     {'angle': 30, 'maet': 0.01},
+    # ]
 
-    fahrenheit = [{'angle': 0, 'maer': 0.819},
-                {'angle': 10, 'maer': 0.816},
-                {'angle': 20, 'maer': 0.841},
-                {'angle': 30, 'maer': 0.857},
-                ]
+    # fahrenheit = [{'angle': 0, 'maer': 0.819},
+    #             {'angle': 10, 'maer': 0.816},
+    #             {'angle': 20, 'maer': 0.841},
+    #             {'angle': 30, 'maer': 0.857},
+    #             ]
 
     # month = [str(item['angle']) for item in centigrade]
     # centigrade_lst = [item['maet'] for item in centigrade]
     # fahrenheit_lst = [item['maer'] for item in fahrenheit]
-
+    plt.rcParams['font.size']=14
     fig = plt.figure()
 
     ax = fig.add_subplot()
-    ax.plot(month, centigrade_lst, label='Error(t)', color='green', marker='o', linestyle='solid')
-    ax.set_ylabel("Error(t)")
+    ax.plot(month, centigrade_lst, label='RTE', color='green', marker='o', linestyle='solid')
+    ax.set_ylabel("RTE", fontsize=17)
     ax.set_ylim(0.018, 0.0215)
     ax.legend(loc='upper left')
     ax2 = ax.twinx()
-    ax2.plot(month, fahrenheit_lst, label='Error(R)', color='blue', marker='s', linestyle='dashed')
-    ax2.set_ylabel("Error(R)")
+    ax2.plot(month, fahrenheit_lst, label='RRE', color='blue', marker='s', linestyle='dashed')
+    ax2.set_ylabel("RRE", fontsize=17)
     ax2.set_ylim(1.54, 1.72)
     ax2.legend(loc='upper right')
     # plt.title('月平均气温')
-    ax.set_xlabel("邻近点个数")#number of points
+    ax.set_xlabel("邻近点个数", fontsize=17)#number of points
     plt.grid(linestyle="-.")  # 设置背景网格线为虚线
     plt.tight_layout()
     plt.savefig(f'pics/line4.png', format='png')
